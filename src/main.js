@@ -83,7 +83,7 @@ const ui = {
 const aiInputs = /** @type {NodeListOf<HTMLInputElement>} */ (document.querySelectorAll('input[name="ai"]'));
 
 const store = createStore('amiral-batti:');
-const demo = new URLSearchParams(window.location.search).has('demo');
+let demo = new URLSearchParams(window.location.search).has('demo');
 
 let lang = normalizeLanguage(store.get('lang', null));
 let settings = normalizeSettings(store.get('settings', null));
@@ -137,6 +137,7 @@ function newSeed() {
 function newGame() {
   clearTimeout(enemyTimer);
   stopConfirm();
+  leaveDemo();
   seed = newSeed();
   game = createGame({ seed, ...settings });
   setup.reset();
@@ -145,6 +146,15 @@ function newGame() {
   showAim = false;
   persist();
   render();
+}
+
+/** Drops screenshot mode so the real game that follows is saved and counted. */
+function leaveDemo() {
+  if (!demo) return;
+  demo = false;
+  const url = new URL(window.location.href);
+  url.searchParams.delete('demo');
+  window.history.replaceState(null, '', url);
 }
 
 function startBattle() {

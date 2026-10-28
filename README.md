@@ -160,7 +160,28 @@ Testler için yalnızca Node.js 22 ya da daha yenisi gerekir. GitHub Actions her
 
 ### Proje yapısı
 
-Saf oyun mantığı (`game.js`, `fleet.js`, `board.js`, `ai.js`, `rng.js`, `session.js`, `coords.js`, `demo.js`, `i18n.js`) ve `storage.js` `src/` klasöründe. Arayüz modülleri (`main.js`, `setup.js`, `board-view.js`, `panels.js`, `hull.js`, `dom.js`) de orada, testler `test/` klasöründe. Ağacın tamamı yukarıdaki *Project structure* bölümünde.
+```text
+index.html          sayfa iskeleti, meta etiketleri ve simge
+style.css           koyu tema, duyarlı düzen, animasyonlar
+src/
+  game.js           kurallar: hazırlık, sıra, salvo, sonuç (saf)
+  fleet.js          gemiler, yerleşim denetimi, rastgele filolar (saf)
+  board.js          işaretler, isabetler ve batma (saf)
+  ai.js             bilgisayar rakipler: kolay, normal, zor (saf)
+  rng.js            tohumlu rastgele sayılar (saf)
+  session.js        kayıt, istatistik, rekor (saf)
+  coords.js         kare adları, imleç ve işaretçi yardımcıları (saf)
+  demo.js           ?demo için sabit savaş anı (saf)
+  i18n.js           İngilizce ve Türkçe metinler (saf)
+  storage.js        try/catch ile sarılmış localStorage
+  main.js           arayüz: bağlantılar, çizim, sıralar, girdi
+  setup.js          arayüz: sürükleme, dokunma ve klavyeyle yerleşim
+  board-view.js     arayüz: deniz ızgarası, gemiler ve efektler
+  panels.js         arayüz: filo listeleri ve atış kaydı
+  hull.js, dom.js   arayüz: SVG gövdeler ve küçük DOM yardımcıları
+test/               node:test test dosyaları
+docs/screenshot.png
+```
 
 ### Lisans
 
