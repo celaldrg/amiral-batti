@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amiral Battı</title>
+  <meta name="description" content="Amiral Battı is a sea battle game for the browser: place your fleet by drag or tap, then sink the computer's ships. Three AI levels, optional salvo rule, English and Turkish.">
+  <meta name="theme-color" content="#0f172a">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Amiral Battı">
+  <meta property="og:description" content="Place your fleet, then sink the computer's ships. A sea battle game for the browser with three AI levels and an optional salvo rule.">
+  <meta property="og:url" content="https://celaldrg.github.io/amiral-batti/">
+  <meta property="og:image" content="https://celaldrg.github.io/amiral-batti/docs/screenshot.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Cpath d='M8 37c4-7 11-10 21-10h21q6 0 6 6v2q0 6-6 6H29c-10 0-17-1-21-4z' fill='%237dd3fc'/%3E%3Crect x='30' y='19' width='13' height='9' rx='3' fill='%23e2e8f0'/%3E%3Ccircle cx='50' cy='14' r='6' fill='%23f87171'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <rect width="64" height="64" rx="16" fill="#1e293b"/>
+        <path d="M8 46c6 3 12 3 18 0s12-3 18 0 12 3 18 0" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+        <path d="M9 36c4-7 11-10 21-10h20q6 0 6 6v1q0 6-6 6H30c-10 0-17-1-21-3z" fill="#7dd3fc"/>
+        <rect x="31" y="18" width="13" height="9" rx="3" fill="#e2e8f0"/>
+        <circle cx="21" cy="31" r="3" fill="#0f172a"/>
+      </svg>
+      <h1 data-i18n="title">Amiral Battı</h1>
+    </div>
+    <div class="topbar-actions">
+      <button id="new-game" class="btn" type="button">New game</button>
+      <button id="lang" class="btn btn--lang" type="button" data-i18n="langButton" data-i18n-label="langSwitch" aria-label="TR – switch to Turkish">TR</button>
+    </div>
+  </header>
+
+  <main id="game" class="game" data-phase="setup" data-turn="player">
+    <div class="status panel" role="status">
+      <span id="pill" class="pill pill--setup">Setup</span>
+      <span id="message" class="message"></span>
+      <span id="shots" class="shots" hidden></span>
+    </div>
+
+    <section id="result" class="result panel" aria-labelledby="result-title" hidden>
+      <div class="result-body">
+        <h2 id="result-title" class="result-title"></h2>
+        <p id="result-text" class="result-text"></p>
+        <p id="result-record" class="result-record"></p>
+      </div>
+      <button id="play-again" class="btn btn--primary" type="button" data-i18n="playAgain">Play again</button>
+    </section>
+
+    <section class="sea sea--enemy panel" aria-labelledby="enemy-title">
+      <div class="sea-head">
+        <h2 id="enemy-title" data-i18n="enemySea">Enemy waters</h2>
+        <span id="enemy-count" class="count"></span>
+      </div>
+      <div id="enemy-board" class="board-frame"></div>
+      <ul id="enemy-fleet" class="fleet"></ul>
+    </section>
+
+    <section class="sea sea--player panel" aria-labelledby="player-title">
+      <div class="sea-head">
+        <h2 id="player-title" data-i18n="yourSea">Your fleet</h2>
+        <span id="player-count" class="count"></span>
+      </div>
+      <div id="player-board" class="board-frame"></div>
+      <ul id="player-fleet" class="fleet"></ul>
+    </section>
+
+    <section class="harbor-panel panel" aria-labelledby="harbor-title">
+      <h2 id="harbor-title" data-i18n="harbor">Harbor</h2>
+      <div id="harbor" class="harbor"></div>
+      <div class="action-row">
+        <button id="rotate" class="btn" type="button" data-i18n="rotate">Rotate</button>
+        <button id="random" class="btn" type="button" data-i18n="random">Random</button>
+        <button id="clear" class="btn" type="button" data-i18n="clear">Clear</button>
+        <button id="start" class="btn btn--primary" type="button" data-i18n="start">Start</button>
+      </div>
+    </section>
+
+    <div class="help">
+      <p class="hint" data-i18n="setupHint">Drag a ship onto your sea, or pick one and tap a cell. Tap a placed ship again to rotate it; drag it off the sea to send it back to the harbor.</p>
+      <p class="hint hint--keys" data-i18n="keysSetup">Keyboard: 1–5 pick a ship, arrows move, Enter places, R rotates, Delete removes.</p>
+    </div>
+
+    <section class="settings panel" aria-labelledby="settings-title">
+      <h2 id="settings-title" data-i18n="settings">Settings</h2>
+      <fieldset class="field">
+        <legend data-i18n="aiLabel">Computer</legend>
+        <div class="segmented">
+          <label><input type="radio" name="ai" value="easy"><span data-i18n="ai_easy">Easy</span></label>
+          <label><input type="radio" name="ai" value="normal" checked><span data-i18n="ai_normal">Normal</span></label>
+          <label><input type="radio" name="ai" value="hard"><span data-i18n="ai_hard">Hard</span></label>
+        </div>
+        <p id="ai-hint" class="hint"></p>
+      </fieldset>
+      <label class="switch">
+        <input id="salvo" type="checkbox" role="switch">
+        <span class="switch-track" aria-hidden="true"></span>
+        <span class="switch-text">
+          <span data-i18n="salvo">Salvo</span>
+          <small data-i18n="salvoHint">One shot per ship still afloat each turn.</small>
+        </span>
+      </label>
+      <label class="switch">
+        <input id="touching" type="checkbox" role="switch">
+        <span class="switch-track" aria-hidden="true"></span>
+        <span class="switch-text">
+          <span data-i18n="touching">Ships may touch</span>
+          <small data-i18n="touchingHint">Ships may lie side by side.</small>
+        </span>
+      </label>
+    </section>
+
+    <section class="log-panel panel" aria-labelledby="log-title">
+      <h2 id="log-title" data-i18n="logTitle">Recent shots</h2>
+      <ol id="log" class="log"></ol>
+      <p id="rules" class="rules"></p>
+      <p class="hint hint--keys" data-i18n="keysBattle">Keyboard: arrows aim, Enter fires.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>MIT</span>
+    <span aria-hidden="true">·</span>
+    <a href="https://github.com/celaldrg/amiral-batti" data-i18n="source">Source on GitHub</a>
+  </footer>
+</body>
+</html>

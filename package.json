@@ -1,0 +1,11 @@
+{
+  "name": "amiral-batti",
+  "version": "1.0.0",
+  "description": "Amiral Battı: the classic sea battle game in the browser, against a computer opponent with three difficulty levels and an optional salvo rule.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,1566 @@
+/* Amiral Battı: dark naval theme, mobile first. */
+
+:root {
+  color-scheme: dark;
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #26344a;
+  --surface-3: #334155;
+  --line: rgba(148, 163, 184, 0.16);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #7dd3fc;
+  --accent-ink: #082f49;
+  --fire: #fb923c;
+  --danger: #f87171;
+  --enemy: #fda4af;
+  --gold: #fcd34d;
+  --radius: 12px;
+  --shadow: 0 14px 32px -18px rgba(2, 6, 23, 0.9), 0 2px 8px -2px rgba(2, 6, 23, 0.45);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --fast: 150ms;
+  --slow: 240ms;
+  --gutter: 12px;
+  --axis: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  background:
+    radial-gradient(900px 480px at 85% -12%, rgba(125, 211, 252, 0.1), transparent 70%),
+    radial-gradient(700px 520px at -12% 112%, rgba(56, 189, 248, 0.07), transparent 70%),
+    var(--bg);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- header and footer ---------- */
+
+.topbar {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  filter: drop-shadow(0 4px 10px rgba(125, 211, 252, 0.22));
+}
+
+.brand h1 {
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-actions {
+  flex: none;
+  display: flex;
+  gap: 8px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px var(--gutter) 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.1;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--fast) ease,
+    border-color var(--fast) ease,
+    color var(--fast) ease,
+    box-shadow var(--fast) ease,
+    transform var(--fast) ease;
+}
+
+.btn:hover {
+  background: var(--surface-3);
+  border-color: rgba(125, 211, 252, 0.35);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn--primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 8px 20px -10px rgba(125, 211, 252, 0.85);
+}
+
+.btn--primary:hover {
+  border-color: transparent;
+  background: #a5e4fe;
+}
+
+.btn--primary.is-waiting {
+  border-color: var(--line);
+  background: var(--surface-2);
+  color: var(--muted);
+  box-shadow: none;
+}
+
+.btn--lang {
+  min-width: 44px;
+  padding: 0 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.btn.is-confirming {
+  border-color: rgba(248, 113, 113, 0.6);
+  background: rgba(248, 113, 113, 0.16);
+  color: #fecaca;
+}
+
+/* ---------- page grid ---------- */
+
+.game {
+  flex: 1;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-content: start;
+  align-items: start;
+  gap: 12px;
+}
+
+.game[data-phase="setup"] {
+  grid-template-areas:
+    "status status"
+    "harbor harbor"
+    "player player"
+    "help help"
+    "settings settings";
+}
+
+.game[data-phase="battle"] {
+  grid-template-areas:
+    "status status"
+    "enemy enemy"
+    "player log";
+}
+
+.game[data-phase="over"] {
+  grid-template-areas:
+    "status status"
+    "result result"
+    "enemy enemy"
+    "player log";
+}
+
+.game[data-phase="setup"] :is(.sea--enemy, .log-panel),
+.game:not([data-phase="setup"]) :is(.harbor-panel, .help, .settings),
+.game[data-phase="setup"] .sea--player .fleet {
+  display: none;
+}
+
+.panel {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 120px), var(--surface);
+  box-shadow: var(--shadow);
+  transition: box-shadow var(--slow) ease, border-color var(--slow) ease;
+}
+
+/* ---------- status bar ---------- */
+
+.status {
+  grid-area: status;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 8px 12px;
+}
+
+.pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.14);
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pill--player {
+  background: rgba(125, 211, 252, 0.14);
+  color: var(--accent);
+}
+
+.pill--enemy {
+  background: rgba(251, 113, 133, 0.14);
+  color: var(--enemy);
+}
+
+.pill--enemy::before {
+  animation: blink 0.9s ease-in-out infinite alternate;
+}
+
+.pill--over {
+  background: rgba(251, 191, 36, 0.14);
+  color: var(--gold);
+}
+
+.message {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.shots {
+  flex: none;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.12);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---------- result ---------- */
+
+.result {
+  grid-area: result;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  border-color: rgba(251, 191, 36, 0.35);
+  background: linear-gradient(120deg, rgba(251, 191, 36, 0.12), transparent 60%), var(--surface);
+  animation: pop var(--slow) var(--ease) both;
+}
+
+.result.is-win {
+  border-color: rgba(125, 211, 252, 0.5);
+  background: linear-gradient(120deg, rgba(125, 211, 252, 0.16), transparent 60%), var(--surface);
+}
+
+.result-body {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.result-title {
+  margin-bottom: 4px;
+  font-size: 22px;
+}
+
+.result-text {
+  font-size: 14px;
+}
+
+.result-record {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- seas ---------- */
+
+.sea--enemy {
+  grid-area: enemy;
+}
+
+.sea--player {
+  grid-area: player;
+}
+
+.game[data-phase="battle"][data-turn="player"] .sea--enemy {
+  border-color: rgba(125, 211, 252, 0.4);
+}
+
+.game[data-phase="battle"][data-turn="enemy"] .sea--player {
+  border-color: rgba(251, 113, 133, 0.45);
+}
+
+.sea-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.count {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.board-frame {
+  display: grid;
+  grid-template-columns: var(--axis) minmax(0, 1fr);
+  grid-template-rows: var(--axis) auto;
+  gap: 2px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.board-axis {
+  display: grid;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.board-axis span {
+  display: grid;
+  place-items: center;
+}
+
+.board-axis--cols {
+  grid-column: 2;
+  grid-row: 1;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.board-axis--rows {
+  grid-column: 1;
+  grid-row: 2;
+  grid-template-rows: repeat(10, minmax(0, 1fr));
+}
+
+.board {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  outline: none;
+  background-color: #0b3150;
+  background-image:
+    linear-gradient(rgba(125, 211, 252, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.13) 1px, transparent 1px),
+    radial-gradient(130% 100% at 20% 0%, #145481 0%, #0c3a5c 42%, #082a45 100%);
+  background-size: 10% 10%, 10% 10%, 100% 100%;
+  box-shadow:
+    inset 0 0 0 1px rgba(125, 211, 252, 0.22),
+    inset 0 -40px 60px -40px rgba(2, 6, 23, 0.7);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter var(--slow) ease;
+}
+
+.board:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px rgba(125, 211, 252, 0.22),
+    0 0 0 3px var(--accent);
+}
+
+.game[data-phase="setup"] .sea--player .board {
+  touch-action: none;
+}
+
+.sea--enemy .board {
+  touch-action: manipulation;
+}
+
+.game[data-phase="battle"][data-turn="enemy"] .sea--enemy .board {
+  filter: saturate(0.7) brightness(0.85);
+}
+
+.board-ships,
+.board-cells {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-rows: repeat(10, minmax(0, 1fr));
+}
+
+.board-ships {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.board-cells {
+  z-index: 2;
+}
+
+.board-row {
+  display: contents;
+}
+
+.cell {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  transition: background-color var(--fast) ease, box-shadow var(--fast) ease;
+}
+
+/* ---------- marks ---------- */
+
+.cell.is-axis {
+  background: rgba(125, 211, 252, 0.07);
+}
+
+.cell.is-clear {
+  background: rgba(2, 6, 23, 0.22);
+}
+
+.cell.is-clear::before {
+  content: "";
+  position: absolute;
+  inset: 44%;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.4);
+}
+
+.cell.is-miss::before {
+  content: "";
+  position: absolute;
+  inset: 36%;
+  border-radius: 50%;
+  background: rgba(226, 232, 240, 0.88);
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.2), 0 0 0 6px rgba(125, 211, 252, 0.08);
+}
+
+.cell.is-hit::before {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 46%, #fff7ed 0 13%, #fdba74 25%, #f97316 44%, #dc2626 62%, rgba(220, 38, 38, 0) 71%);
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.7));
+  animation: flicker 1.4s ease-in-out infinite alternate;
+}
+
+.cell.is-sunk::before {
+  content: "";
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(254, 202, 202, 0.95) 0 10%, #ef4444 30%, rgba(127, 29, 29, 0.9) 58%, rgba(127, 29, 29, 0) 70%);
+}
+
+.cell.is-sunk::after {
+  content: "";
+  position: absolute;
+  inset: 24%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 2l6 6M8 2l-6 6' stroke='%23fee2e2' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0.85;
+}
+
+.cell.is-last {
+  box-shadow: inset 0 0 0 2px rgba(252, 211, 77, 0.85);
+  border-radius: 4px;
+}
+
+.cell.is-aim {
+  z-index: 1;
+  border-radius: 4px;
+  background: rgba(125, 211, 252, 0.18);
+  box-shadow: inset 0 0 0 2px var(--accent), 0 0 14px rgba(125, 211, 252, 0.55);
+}
+
+.cell.is-aim:not(.is-marked)::after {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237dd3fc' stroke-width='1.6' stroke-linecap='round'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath d='M10 1v4M10 15v4M1 10h4M15 10h4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@media (hover: hover) {
+  .game[data-phase="battle"][data-turn="player"] .sea--enemy .board {
+    cursor: crosshair;
+  }
+
+  .game[data-phase="battle"][data-turn="player"] .sea--enemy .cell:not(.is-marked):hover {
+    border-radius: 4px;
+    background: rgba(125, 211, 252, 0.2);
+    box-shadow: inset 0 0 0 2px rgba(125, 211, 252, 0.7);
+  }
+
+  .game[data-phase="setup"] .sea--player .board {
+    cursor: pointer;
+  }
+}
+
+/* ---------- effects ---------- */
+
+.fx {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.fx--splash {
+  inset: 8%;
+  border: 2px solid rgba(186, 230, 253, 0.95);
+  border-radius: 50%;
+  animation: splash 650ms var(--ease) both;
+}
+
+.fx--splash::after {
+  content: "";
+  position: absolute;
+  inset: 22%;
+  border: 2px solid rgba(186, 230, 253, 0.75);
+  border-radius: 50%;
+  animation: splash 650ms 120ms var(--ease) both;
+}
+
+.fx--blast {
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 247, 237, 0.95) 0 12%, rgba(253, 186, 116, 0.9) 26%, rgba(249, 115, 22, 0.75) 42%, rgba(220, 38, 38, 0.35) 58%, rgba(220, 38, 38, 0) 70%);
+  animation: blast 620ms ease-out both;
+}
+
+.fx--sink {
+  inset: 0;
+  border-radius: 4px;
+  background: rgba(248, 113, 113, 0.55);
+  animation: sink 700ms ease-out both;
+}
+
+/* ---------- ships ---------- */
+
+.ship {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.ship .hull {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 3px 3px rgba(2, 6, 23, 0.55));
+}
+
+.hull-body {
+  fill: #8494a9;
+  stroke: #1e293b;
+  stroke-width: 3;
+}
+
+.hull-deck {
+  fill: #a8b7ca;
+}
+
+.hull-hatch {
+  fill: #5d6d82;
+}
+
+.hull-bridge {
+  fill: #e2e8f0;
+  stroke: #64748b;
+  stroke-width: 2;
+}
+
+.hull-mast {
+  fill: var(--accent);
+}
+
+.hull-gun {
+  fill: #475569;
+}
+
+.hull-turret {
+  fill: #64748b;
+  stroke: #334155;
+  stroke-width: 2;
+}
+
+.ship--wreck .hull {
+  filter: none;
+  opacity: 0.95;
+}
+
+.ship--wreck .hull-body {
+  fill: #3d2a2f;
+  stroke: #0f172a;
+}
+
+.ship--wreck .hull-deck {
+  fill: #563a3f;
+}
+
+.ship--wreck :is(.hull-hatch, .hull-bridge, .hull-gun, .hull-turret) {
+  fill: #2a1c20;
+  stroke: #0f172a;
+}
+
+.ship--wreck .hull-mast {
+  fill: #7f1d1d;
+}
+
+.ship--revealed .hull,
+.ship--ghost .hull,
+.ship--blocked .hull {
+  filter: none;
+}
+
+.ship--revealed .hull-body,
+.ship--ghost .hull-body,
+.ship--blocked .hull-body {
+  stroke-width: 4;
+  stroke-dasharray: 12 8;
+}
+
+.ship--revealed :is(.hull-deck, .hull-hatch, .hull-bridge, .hull-mast, .hull-gun, .hull-turret),
+.ship--ghost :is(.hull-deck, .hull-hatch, .hull-bridge, .hull-mast, .hull-gun, .hull-turret),
+.ship--blocked :is(.hull-deck, .hull-hatch, .hull-bridge, .hull-mast, .hull-gun, .hull-turret) {
+  stroke: none;
+}
+
+.ship--revealed .hull-body {
+  fill: rgba(251, 191, 36, 0.16);
+  stroke: #fbbf24;
+}
+
+.ship--revealed :is(.hull-deck, .hull-hatch, .hull-bridge, .hull-mast, .hull-gun, .hull-turret) {
+  fill: rgba(251, 191, 36, 0.24);
+}
+
+.ship--ghost,
+.ship--blocked {
+  z-index: 2;
+}
+
+.ship--ghost .hull-body {
+  fill: rgba(125, 211, 252, 0.3);
+  stroke: var(--accent);
+}
+
+.ship--ghost :is(.hull-deck, .hull-hatch, .hull-bridge, .hull-mast, .hull-gun, .hull-turret) {
+  fill: rgba(125, 211, 252, 0.22);
+}
+
+.ship--blocked .hull-body {
+  fill: rgba(248, 113, 113, 0.28);
+  stroke: var(--danger);
+}
+
+.ship--blocked :is(.hull-deck, .hull-hatch, .hull-bridge, .hull-mast, .hull-gun, .hull-turret) {
+  fill: rgba(248, 113, 113, 0.2);
+}
+
+.ship.is-selected .hull {
+  filter: drop-shadow(0 0 5px rgba(125, 211, 252, 0.9)) drop-shadow(0 3px 3px rgba(2, 6, 23, 0.55));
+}
+
+.ship.is-selected .hull-body {
+  stroke: var(--accent);
+  stroke-width: 6;
+}
+
+.ship.is-lifted {
+  opacity: 0.3;
+}
+
+.ship.is-new {
+  animation: ship-in var(--slow) var(--ease) both;
+}
+
+/* ---------- fleet lists ---------- */
+
+.fleet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fleet-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+}
+
+.fleet-pips {
+  flex: none;
+  display: flex;
+  gap: 2px;
+}
+
+.pip {
+  width: 7px;
+  height: 10px;
+  border-radius: 2px;
+  background: #64748b;
+}
+
+.pip.is-hit {
+  background: var(--fire);
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.6);
+}
+
+.fleet-item.is-sunk .pip {
+  background: #b91c1c;
+  box-shadow: none;
+}
+
+.fleet-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fleet-item.is-sunk .fleet-name {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(248, 113, 113, 0.8);
+}
+
+.fleet-state {
+  margin-left: auto;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.fleet-item.is-hit .fleet-state {
+  color: var(--fire);
+}
+
+.fleet-item.is-sunk .fleet-state {
+  color: var(--danger);
+}
+
+/* On phones the enemy fleet is a row of pips; names stay for screen readers. */
+.sea--enemy :is(.fleet-name, .fleet-state),
+.sea--player .fleet-state {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.sea--player .fleet {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+/* ---------- harbor and setup ---------- */
+
+.harbor-panel {
+  grid-area: harbor;
+  display: grid;
+  gap: 8px;
+}
+
+.harbor {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.chip {
+  position: relative;
+  min-width: 0;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--fast) ease,
+    border-color var(--fast) ease,
+    box-shadow var(--fast) ease,
+    opacity var(--fast) ease;
+}
+
+.chip:hover {
+  border-color: rgba(125, 211, 252, 0.4);
+}
+
+.chip:active {
+  cursor: grabbing;
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.chip.is-selected {
+  border-color: var(--accent);
+  background: #173650;
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.18);
+}
+
+.chip.is-placed {
+  opacity: 0.45;
+}
+
+.chip.is-placed.is-selected {
+  opacity: 0.8;
+}
+
+.chip.is-placed::after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 12px;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%237dd3fc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.2 2.2 4.8-5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.chip-hull {
+  display: block;
+  width: calc(var(--size) * 20%);
+  aspect-ratio: var(--size) / 1;
+}
+
+.chip-hull svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chip-name {
+  display: none;
+}
+
+.chip-size {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.action-row .btn {
+  padding: 0 6px;
+}
+
+.help {
+  grid-area: help;
+  display: grid;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- settings ---------- */
+
+.settings {
+  grid-area: settings;
+  display: grid;
+  gap: 10px;
+}
+
+.field {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field legend {
+  margin-bottom: 8px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 6px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.segmented label {
+  position: relative;
+  display: block;
+}
+
+.segmented input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmented span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 650;
+  pointer-events: none;
+  transition: background-color var(--fast) ease, color var(--fast) ease;
+}
+
+.segmented label:hover span {
+  color: var(--text);
+}
+
+.segmented input:checked + span {
+  background: var(--surface-3);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 10px -4px rgba(2, 6, 23, 0.7);
+}
+
+.segmented input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.switch {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.switch input {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.switch-track {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: background-color var(--fast) ease;
+}
+
+.switch-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  box-shadow: 0 2px 4px rgba(2, 6, 23, 0.5);
+  transition: transform var(--slow) var(--ease), background-color var(--fast) ease;
+}
+
+.switch input:checked + .switch-track {
+  background: var(--accent);
+}
+
+.switch input:checked + .switch-track::after {
+  transform: translateX(18px);
+  background: var(--accent-ink);
+}
+
+.switch input:focus-visible + .switch-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.switch-text {
+  display: grid;
+  gap: 1px;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.switch-text small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* ---------- log ---------- */
+
+.log-panel {
+  grid-area: log;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.log {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.log-entry {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.3);
+  font-size: 12px;
+}
+
+.log-entry:nth-child(n + 9) {
+  display: none;
+}
+
+.log-who {
+  padding: 2px 5px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.log--player .log-who {
+  background: rgba(125, 211, 252, 0.12);
+  color: var(--accent);
+}
+
+.log--enemy .log-who {
+  background: rgba(251, 113, 133, 0.12);
+  color: var(--enemy);
+}
+
+.log-cell {
+  min-width: 2.1em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.log-result {
+  overflow: hidden;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.log-entry.is-hit .log-result {
+  color: var(--fire);
+}
+
+.log-entry.is-sunk .log-result {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.log-entry.is-fresh {
+  animation: log-in var(--slow) var(--ease) both;
+}
+
+.log-empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.rules {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (hover: none) {
+  .hint--keys {
+    display: none;
+  }
+}
+
+/* ---------- phones: your sea is a small chart next to the log ---------- */
+
+@media (max-width: 599px), (max-width: 759px) and (orientation: portrait) {
+  .game:not([data-phase="setup"]) .sea--player .board-frame {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .game:not([data-phase="setup"]) .sea--player .board-axis {
+    display: none;
+  }
+
+  .game:not([data-phase="setup"]) .sea--player .board {
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: 8px;
+  }
+
+  .game:not([data-phase="setup"]) .sea--player .sea-head {
+    flex-wrap: wrap;
+    gap: 0 8px;
+  }
+
+  .game:not([data-phase="setup"]) .sea--player .hull-turret,
+  .game:not([data-phase="setup"]) .sea--player .hull-gun {
+    display: none;
+  }
+}
+
+/* ---------- narrow phones: slimmer edges leave the sea cells more room ---------- */
+
+@media (max-width: 479px) {
+  :root {
+    --gutter: 8px;
+    --axis: 12px;
+  }
+
+  .panel {
+    padding-inline: 8px;
+  }
+}
+
+/* ---------- tablets, desktops and landscape phones ---------- */
+
+@media (min-width: 760px), (min-width: 600px) and (orientation: landscape) {
+  :root {
+    --gutter: 20px;
+    --axis: 18px;
+  }
+
+  .game {
+    gap: 16px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  }
+
+  .game[data-phase="setup"] {
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "status status"
+      "player harbor"
+      "player settings"
+      "player help";
+  }
+
+  .game[data-phase="battle"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "status status"
+      "player enemy"
+      "log log";
+  }
+
+  .game[data-phase="over"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "status status"
+      "result result"
+      "player enemy"
+      "log log";
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .board-axis {
+    font-size: 11px;
+  }
+
+  .game[data-phase="setup"] .board-frame {
+    max-width: max(300px, calc(100vh - 210px));
+  }
+
+  .game:not([data-phase="setup"]) .board-frame {
+    max-width: max(260px, calc(100vh - 290px));
+  }
+
+  .harbor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chip {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    min-height: 44px;
+    padding: 6px 12px;
+  }
+
+  .chip-hull {
+    flex: none;
+    width: calc(var(--size) * 16px);
+    margin-right: calc((5 - var(--size)) * 16px);
+  }
+
+  .chip-name {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chip.is-placed::after {
+    position: static;
+    flex: none;
+    order: 3;
+  }
+
+  .help {
+    padding: 0 2px;
+  }
+
+  .fleet,
+  .sea--player .fleet {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 4px 14px;
+  }
+
+  .fleet-item {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    gap: 8px;
+    min-height: 22px;
+    font-size: 13px;
+  }
+
+  .sea--enemy :is(.fleet-name, .fleet-state),
+  .sea--player .fleet-state {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .sea--enemy .fleet-name,
+  .sea--player .fleet-name {
+    overflow: hidden;
+  }
+
+  .log {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+
+  .log-entry {
+    gap: 8px;
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+
+  .log-entry:nth-child(n + 9) {
+    display: grid;
+  }
+
+  .log-who {
+    font-size: 10px;
+  }
+}
+
+@supports (height: 100svh) {
+  @media (min-width: 760px), (min-width: 600px) and (orientation: landscape) {
+    .game[data-phase="setup"] .board-frame {
+      max-width: max(300px, calc(100svh - 210px));
+    }
+
+    .game:not([data-phase="setup"]) .board-frame {
+      max-width: max(260px, calc(100svh - 290px));
+    }
+  }
+}
+
+/* ---------- wide screens: both seas and the log side by side ---------- */
+
+@media (min-width: 1100px) {
+  .game[data-phase="battle"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(250px, 300px);
+    grid-template-areas:
+      "status status status"
+      "player enemy log";
+  }
+
+  .game[data-phase="over"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(250px, 300px);
+    grid-template-areas:
+      "status status status"
+      "result result result"
+      "player enemy log";
+  }
+
+  .log {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- animations ---------- */
+
+@keyframes splash {
+  from {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes blast {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes sink {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes flicker {
+  from {
+    transform: scale(0.94);
+    opacity: 0.9;
+  }
+
+  to {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes ship-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes log-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
